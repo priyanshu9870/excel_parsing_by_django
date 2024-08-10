@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Products</title>
+</head>
+<body>
+    <h1>Upload Products</h1>
+    <form action="/upload-products/" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="excel_file" accept=".xls, .xlsx">
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Listing</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+</head>
+<body>
+    <h1>Product Listing</h1>
+    <table id="productTable" class="display">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Lowest Price</th>
+                <th>Variations & Stock</th>
+                <th>Last Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script>
+$(document).ready(function() {
+    $('#productTable').DataTable({
+        "ajax": {
+            "url": "/products/",
+            "dataSrc": function (json) {
+                console.log("Received data:", json);  // Log the data
+                return json;  // Return the data to be used by DataTables
+            }
+        },
+        "columns": [
+            { "data": "name" },
+            { "data": "lowest_price" },
+            {
+                "data": "variations",
+                "render": function(data, type, row) {
+                    var variations = '';
+                    if (Array.isArray(data)) {
+                        data.forEach(function(variation) {
+                            variations += variation.variation_text + ': ' + variation.stock + '<br>';
+                        });
+                    }
+                    return variations || 'No variations';
+                }
+            },
+            { "data": "last_updated" }
+        ]
+    });
+});
+    </script>
+</body>
+</html>
